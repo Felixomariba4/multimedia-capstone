@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+
+    <!-- Font Awesome -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css"
+rel="stylesheet"
+/>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+
+    <title>
+ login to felo shop
+    </title>
+</head>
+<body>
+<section class="vh-100" style="background-color: #F7941D;">
+    <div class="container py-5 h-80">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card shadow-2-strong" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+  
+              <h3 class="mb-5">Sign in</h3>
+  
+              <div class="form-outline mb-4">
+                <input type="email" id="typeEmailX-2" class="form-control form-control-lg" />
+                <label class="form-label" for="typeEmailX-2">Email</label>
+              </div>
+  
+              <div class="form-outline mb-4">
+                <input type="password" id="typePasswordX-2" class="form-control form-control-lg" />
+                <label class="form-label" for="typePasswordX-2">Password</label>
+              </div>
+  
+              <!-- Checkbox -->
+              <div class="form-check d-flex justify-content-start mb-4">
+                <input class="form-check-input" type="checkbox" value="" id="form1Example3" />
+                <label class="form-check-label" for="form1Example3"> Remember password </label>
+              </div>
+  
+              <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+  
+              <hr class="my-4">
+  
+              <button class="btn btn-lg btn-block btn-primary" style="background-color: #dd4b39;"
+                type="submit"><i class="fab fa-google me-2"></i> Sign in with google</button>
+              <button class="btn btn-lg btn-block btn-primary mb-2" style="background-color: #3b5998;"
+                type="submit"><i class="fab fa-facebook-f me-2"></i>Sign in with facebook</button>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCBH7nQrvUV0imDxg6EGUIrddvoxJwjhN4",
+    authDomain: "e-shop-3931a.firebaseapp.com",
+    databaseURL: "https://e-shop-3931a-default-rtdb.firebaseio.com",
+    projectId: "e-shop-3931a",
+    storageBucket: "e-shop-3931a.appspot.com",
+    messagingSenderId: "1054682549402",
+    appId: "1:1054682549402:web:042bd1184c044ba4a0a323",
+    measurementId: "G-MXJSG4V3DW"
+  };
+  </script>
+  <script>
+    firebase.database.enableLogging(true);
+      document.addEventListener("DOMContentLoaded", function () {
+  const loginButton = document.querySelector(".btn-primary");
+  loginButton.addEventListener("click", function () {
+    const email = document.querySelector("#typeEmailX-2").value;
+    const password = document.querySelector("#typePasswordX-2").value;
+
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // User is signed in. You can redirect or perform other actions.
+        const user = userCredential.user;
+        console.log("User signed in:", user);
+
+        // Database operations should be here
+        const database = firebase.database();
+        const databaseRef = database.ref("users"); // Reference to the "users" node
+        const data = {
+          username: "collins korir",
+          email: "kipkemoicollins172@gmail.com",
+        };
+
+        // Set data to a specific location in the database
+        databaseRef.push(data);
+
+        // Read data once
+        databaseRef.once("value")
+          .then((snapshot) => {
+            const data = snapshot.val();
+            console.log(data);
+          })
+          .catch((error) => {
+            console.error("Error reading data: " + error.message);
+          });
+      })
+      .catch((error) => {
+        // Handle errors, e.g., display an error message.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error("Error:", errorCode, errorMessage);
+      });
+  });
+});
+
+
+  </script>
+  
+  <!-- MDB -->
+<script
+type="text/javascript"
+src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
+></script>
+</body>
+</html>
